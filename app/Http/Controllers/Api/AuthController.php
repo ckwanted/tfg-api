@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Auth\LoginUserRequest;
+use App\Http\Requests\Auth\RegisterUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller {
 
-    public function register(Request $request) {
+    public function register(RegisterUserRequest $request) {
 
         $user = User::create($request->all());
         $token =  $user->createToken(env('APP_NAME'))->accessToken;
@@ -21,7 +23,7 @@ class AuthController extends Controller {
 
     }
 
-    public function login(Request $request) {
+    public function login(LoginUserRequest $request) {
 
         if(Auth::attempt($request->only('email', 'password'))) {
 
