@@ -2,25 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\AuthenticateUserRequest;
+use App\Http\Requests\Auth\RegisterUserRequest;
+use App\User;
 
 class AuthController extends Controller {
 
     /**
      * Get a JWT via given credentials.
      *
-     * @param Request $request
+     * @param AuthenticateUserRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request) {
+    public function login(AuthenticateUserRequest $request) {
 
         $credentials = $request->only(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        if(!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
+    }
+
+    /**
+     * Register a new user
+     *
+     * @param RegisterUserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(RegisterUserRequest $request) {
+
+        $user = User::create($request->all());
+
+        return response()->json([
+            'user'    => $user
+        ], 201);
+
     }
 
     /**
@@ -61,9 +79,9 @@ class AuthController extends Controller {
      */
     protected function respondWithToken($token) {
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'user'           => auth()->user(),
+            'access_token'   => $token,
+            'expires_in'     => auth()->factory()->getTTL() * 60
         ]);
     }
 
