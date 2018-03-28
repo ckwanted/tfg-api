@@ -17,8 +17,13 @@ $factory->define(App\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'last_name' => $faker->lastName,
-        'email' => 'admin@tfg.com',
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'email' => $faker->email,
+        'password' => 'secret',
         'remember_token' => str_random(10),
     ];
+});
+
+$factory->defineAs(App\User::class, 'admin', function ($faker) {
+    $user = $this->raw(App\User::class);
+    return array_merge($user, ['email' => 'admin@tfg.com']);
 });

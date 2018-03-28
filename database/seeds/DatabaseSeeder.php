@@ -10,8 +10,9 @@ class DatabaseSeeder extends Seeder {
      */
     public function run() {
 
-        factory(App\User::class, 1)->create();
+        factory(App\User::class, 'admin')->create();
+        factory(App\User::class, 50)->create();
 
-        // $this->call(UsersTableSeeder::class);
+        //$this->call(UsersTableSeeder::class);
     }
 }
