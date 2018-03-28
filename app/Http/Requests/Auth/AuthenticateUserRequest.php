@@ -23,7 +23,7 @@ class AuthenticateUserRequest extends FormRequest {
     public function rules() {
 
         return [
-            'email'    => 'required|email|exists:users,email',
+            'email'    => 'required|email',
             'password' => 'required|string|min:4'
         ];
 
