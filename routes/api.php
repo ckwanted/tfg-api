@@ -25,4 +25,14 @@ Route::group(['prefix' => 'v1'], function() {
 
     });
 
+    Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::get('users', 'UserController@index')->middleware('role:admin');
+        Route::get('users/{user}', 'UserController@show')->middleware('role:admin');
+        Route::put('users/{user}', 'UserController@update');
+        Route::delete('users/{user}', 'UserController@destroy');
+
+    });
+
+
 });
