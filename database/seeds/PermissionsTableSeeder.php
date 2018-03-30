@@ -18,11 +18,15 @@ class PermissionsTableSeeder extends Seeder {
         $studentRole = Role::create(['name' => 'student']);
 
         $users = User::all();
+        $i = 0;
 
         foreach($users as $user) {
 
-            if($user->id != 1) $user->assignRole('student');
-            else $user->assignRole('admin');
+            if($user->id == 1) $user->assignRole('admin');
+            else if($i < 10) $user->assignRole('teacher');
+            else $user->assignRole('student');
+
+            $i++;
         }
 
     }

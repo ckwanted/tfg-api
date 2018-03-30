@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject {
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'password',
+        'name', 'last_name', 'email', 'password', 'photo',
     ];
 
     /**
@@ -49,6 +49,16 @@ class User extends Authenticatable implements JWTSubject {
         return [];
     }
 
+
+    /**
+     * Return user rol
+     *
+     * @return String
+     */
+    public function getRol() {
+        return $this->getRoleNames()->first();
+    }
+
     /*
      * MUTATORS
      */
@@ -56,5 +66,11 @@ class User extends Authenticatable implements JWTSubject {
         $this->attributes['password'] = bcrypt($value);
     }
 
+    /*
+     * RELATIONSHIPS
+     */
+    public function courses() {
+        return $this->hasMany(Course::class);
+    }
 
 }
