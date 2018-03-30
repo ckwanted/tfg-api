@@ -22,4 +22,8 @@ class CourseSection extends Model {
         return $this->belongsTo(Course::class);
     }
 
+    public function resources() {
+        return $this->hasMany(CourseSection::class);
+    }
+
 }

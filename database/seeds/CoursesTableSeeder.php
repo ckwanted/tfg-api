@@ -1,6 +1,7 @@
 <?php
 
 use App\Course;
+use App\CourseResource;
 use App\CourseSection;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -34,6 +35,23 @@ class CoursesTableSeeder extends Seeder {
                         'course_id' => $course->id,
                         'title'     => $faker->title . " $i"
                     ]);
+
+                    for($y = 1; $y < 3; $y++) {
+
+                        CourseResource::create([
+                            'section_id' => $section->id,
+                            'title'      => $faker->title . " $i",
+                            'type'       => config('constant.course_type')[0],
+                            'uri'        => $faker->url
+                        ]);
+
+                        CourseResource::create([
+                            'section_id' => $section->id,
+                            'title'      => $faker->title . " $i",
+                            'type'       => config('constant.course_type')[1],
+                        ]);
+
+                    }
 
                 }
 
