@@ -12,7 +12,7 @@ class CourseResource extends Model {
      * @var array
      */
     protected $fillable = [
-        'section_id', 'title', 'type', 'uri'
+        'section_id', 'title', 'uri', 'quiz'
     ];
 
     /*

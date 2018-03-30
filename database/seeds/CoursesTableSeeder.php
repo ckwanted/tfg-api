@@ -41,14 +41,19 @@ class CoursesTableSeeder extends Seeder {
                         CourseResource::create([
                             'section_id' => $section->id,
                             'title'      => $faker->title . " $i",
-                            'type'       => config('constant.course_type')[0],
                             'uri'        => $faker->url
                         ]);
 
                         CourseResource::create([
                             'section_id' => $section->id,
                             'title'      => $faker->title . " $i",
-                            'type'       => config('constant.course_type')[1],
+                            'quiz'       => json_encode([
+                                'result'    => [0],
+                                'question'  => [
+                                    $faker->title . " 1",
+                                    $faker->title . " 2",
+                                ]
+                            ]),
                         ]);
 
                     }

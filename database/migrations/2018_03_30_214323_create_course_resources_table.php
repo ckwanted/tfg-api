@@ -15,8 +15,8 @@ class CreateCourseResourcesTable extends Migration {
             $table->increments('id');
             $table->integer('section_id')->unsigned();
             $table->string('title');
-            $table->enum('type', config('constant.course_type'))->default('video');
             $table->string('uri')->nullable();
+            $table->json('quiz')->nullable();
             $table->timestamps();
 
             $table->foreign('section_id')->references('id')->on('course_sections')->onDelete('cascade');
