@@ -44,7 +44,7 @@ class UserController extends Controller {
 
         if($this->is_me($user)) {
 
-            $user->fill($request->only('name', 'last_name', 'email', 'password'));
+            $user->fill($request->only('name', 'last_name', 'email', 'photo'));
             $user->save();
 
             return response()->json([
