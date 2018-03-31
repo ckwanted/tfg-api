@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserUpdateRequest;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -41,9 +42,7 @@ class UserController extends Controller {
      */
     public function update(UserUpdateRequest $request, User $user) {
 
-        $me = auth()->user();
-
-        if( ($me->getRol() == "admin") || ($me->id == $user->id)) {
+        if($this->is_me($user)) {
 
             $user->fill($request->only('name', 'last_name', 'email', 'password'));
             $user->save();
@@ -64,8 +63,21 @@ class UserController extends Controller {
      *
      * @param User $user
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(User $user) {
-        return response()->json([], 204);
+
+        try {
+
+            if($this->is_me($user)) $user->delete();
+            else throw new Exception("you don't have permission");
+
+            return response()->json([], 204);
+        } catch (\Exception $e) {
+            return response()->json(['message'  => $e->getMessage()], 400);
+        }
+
+
     }
+
 }

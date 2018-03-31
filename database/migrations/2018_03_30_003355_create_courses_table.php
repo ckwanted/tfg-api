@@ -22,6 +22,7 @@ class CreateCoursesTable extends Migration {
             $table->decimal('price', 8, 2)->default(0.0);
             $table->string('photo')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
