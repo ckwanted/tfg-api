@@ -25,6 +25,8 @@ Route::group(['prefix' => 'v1'], function() {
 
     });
 
+    Route::get('courses', 'CourseController@index');
+
     Route::group(['middleware' => 'auth:api'], function () {
 
         Route::get('users', 'UserController@index')->middleware('role:admin');
