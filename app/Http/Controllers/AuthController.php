@@ -78,8 +78,12 @@ class AuthController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
     protected function respondWithToken($token) {
+        $user = auth()->user();
+        $rol = $user->getRol();
+
         return response()->json([
-            'user'           => auth()->user(),
+            'user'           => $user,
+            'rol'            => $rol,
             'access_token'   => $token,
             'expires_in'     => auth()->factory()->getTTL() * 60
         ]);
