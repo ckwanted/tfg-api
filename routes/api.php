@@ -29,10 +29,17 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::group(['middleware' => 'auth:api'], function () {
 
+        // USERS
         Route::get('users', 'UserController@index')->middleware('role:admin');
         Route::get('users/{user}', 'UserController@show')->middleware('role:admin');
         Route::put('users/{user}', 'UserController@update');
         Route::delete('users/{user}', 'UserController@destroy');
+
+        // COURSES
+        Route::get('courses/{course}', 'CourseController@show');
+        Route::post('courses', 'CourseController@store')->middleware('role:admin|teacher');
+        Route::put('courses/{course}', 'CourseController@update')->middleware('role:admin|teacher');
+        Route::delete('courses/{course}', 'CourseController@destroy')->middleware('role:admin|teacher');
 
     });
 
