@@ -36,4 +36,8 @@ class Course extends Model {
         return $this->hasMany(CourseSection::class);
     }
 
+    public function stars() {
+        return $this->hasMany(CourseStar::class);
+    }
+
 }
