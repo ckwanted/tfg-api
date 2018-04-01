@@ -15,7 +15,7 @@ class CreateViewCourseStarTable extends Migration {
     public function up() {
         DB::statement("
             CREATE VIEW view_course_star AS 
-            SELECT course_id, ROUND( AVG(value), 2) AS star, COUNT(course_id) AS votes
+            SELECT course_id, ROUND( AVG(value), 1) AS star, COUNT(course_id) AS votes
             FROM course_stars
             GROUP BY course_id
         ");
