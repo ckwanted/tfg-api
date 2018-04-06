@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Http\Requests\Course\CourseStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,13 +26,17 @@ class CourseController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CourseStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-        return response()->json([
+    public function store(CourseStoreRequest $request) {
 
-        ]);
+        $request['user_id'] = auth()->user()->id;
+        $course = Course::create($request->all());
+
+        return response()->json([
+            'course' => $course
+        ], 201);
     }
 
     /**
