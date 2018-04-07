@@ -6,6 +6,7 @@ use App\Course;
 use App\Http\Requests\Course\CourseStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class CourseController extends Controller {
     /**
@@ -95,7 +96,13 @@ class CourseController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Course $course) {
+        try {
+            if($this->is_my_course($course)) $course->delete();
+            else throw new Exception("you don't have permission");
+            return response()->json([], 204);
+        } catch (\Exception $e) {
+            return response()->json(['message'  => $e->getMessage()], 400);
+        }
 
-        return response()->json([], 204);
     }
 }
