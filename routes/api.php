@@ -25,6 +25,8 @@ Route::group(['prefix' => 'v1'], function() {
 
     });
 
+    // COURSES
+    Route::get('courses/{course}', 'CourseController@show');
     Route::get('courses', 'CourseController@index');
 
     Route::group(['middleware' => 'auth:api'], function () {
@@ -36,7 +38,6 @@ Route::group(['prefix' => 'v1'], function() {
         Route::delete('users/{user}', 'UserController@destroy');
 
         // COURSES
-        Route::get('courses/{course}', 'CourseController@show');
         Route::post('courses', 'CourseController@store')->middleware('role:admin|teacher');
         Route::put('courses/{course}', 'CourseController@update')->middleware('role:admin|teacher');
         Route::delete('courses/{course}', 'CourseController@destroy')->middleware('role:admin|teacher');

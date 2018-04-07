@@ -25,6 +25,15 @@ class Course extends Model {
         'user_id', 'name', 'description', 'category', 'skill_level', 'price', 'photo'
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'user_id',
+    ];
+
     /*
      * RELATIONSHIPS
      */

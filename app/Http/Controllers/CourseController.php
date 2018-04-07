@@ -16,8 +16,11 @@ class CourseController extends Controller {
     public function index() {
         return response()->json([
             'courses'   => DB::table('courses')
-                               ->select('courses.*', 'view_course_star.star', 'view_course_star.votes')
+                               ->selectRaw('courses.id, courses.name, courses.description, courses.category,
+                                courses.skill_level, courses.price, courses.photo, view_course_star.star, 
+                                view_course_star.votes, users.name as user_name')
                                ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
+                               ->leftJoin('users', 'courses.user_id', '=', 'users.id')
                                ->orderBy('id', 'desc')
                                ->paginate(30)
         ]);
@@ -47,7 +50,7 @@ class CourseController extends Controller {
      */
     public function show(Course $course) {
         return response()->json([
-
+            'course' => $course
         ]);
     }
 
