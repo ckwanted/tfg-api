@@ -72,9 +72,20 @@ class CourseController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Course $course) {
-        return response()->json([
 
-        ]);
+        if($this->is_my_course($course)) {
+
+            $course->fill($request->all());
+            $course->save();
+
+            return response()->json([
+                'course' => $course
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'you don\'t have permission'
+        ], 401);
     }
 
     /**
@@ -84,6 +95,7 @@ class CourseController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Course $course) {
+
         return response()->json([], 204);
     }
 }

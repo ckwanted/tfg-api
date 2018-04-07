@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -22,6 +23,29 @@ class Controller extends BaseController {
         $me = auth()->user();
 
         if( ($me->getRol() == "admin") || ($me->id == $user->id)) return true;
+
+        return false;
+    }
+
+    /**
+     * Returns if is my course
+     *
+     * @param Course $course
+     * @return bool
+     */
+    protected function is_my_course(Course $course) {
+        $me = auth()->user();
+
+        switch($me->getRol()) {
+            case "admin":
+                return true;
+            default:
+
+                foreach($me->courses as $myCourse) {
+                    if($myCourse->id == $course->id) return true;
+                }
+                break;
+        }
 
         return false;
     }
