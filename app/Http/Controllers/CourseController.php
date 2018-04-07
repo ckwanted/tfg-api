@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\Http\Requests\Course\CourseStoreRequest;
+use App\Http\Requests\Course\CourseUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -68,11 +69,11 @@ class CourseController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param CourseUpdateRequest $request
      * @param Course $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course) {
+    public function update(CourseUpdateRequest $request, Course $course) {
 
         if($this->is_my_course($course)) {
 
