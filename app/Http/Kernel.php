@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrustProxies::class,
 
         \Barryvdh\Cors\HandleCors::class,
+        \Ecrmnn\LaravelHttps\Http\Middleware\ForceHttps::class,
     ];
 
     /**
