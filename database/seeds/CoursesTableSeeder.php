@@ -27,6 +27,7 @@ class CoursesTableSeeder extends Seeder {
                     'user_id'       => $user->id,
                     'name'          => $faker->name,
                     'description'   => $faker->text,
+                    'photo'         => 'lorem.jpg'
                 ]);
 
                 for($i = 1; $i < 3; $i++) {

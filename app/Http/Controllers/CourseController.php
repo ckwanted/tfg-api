@@ -17,14 +17,14 @@ class CourseController extends Controller {
      */
     public function index() {
         return response()->json([
-            'courses'   => DB::table('courses')
-                               ->selectRaw('courses.id, courses.name, courses.description, courses.category,
+            'courses'   => Course::selectRaw('courses.id, courses.name, courses.description, courses.category,
                                 courses.skill_level, courses.price, courses.photo, view_course_star.star, 
                                 view_course_star.votes, users.name as user_name')
-                               ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
-                               ->leftJoin('users', 'courses.user_id', '=', 'users.id')
-                               ->orderBy('id', 'desc')
-                               ->paginate(30)
+                                ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
+                                ->leftJoin('users', 'courses.user_id', '=', 'users.id')
+                                ->orderBy('id', 'desc')
+                                ->paginate(30)
+
         ]);
     }
 
@@ -51,15 +51,13 @@ class CourseController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-
-        $course = DB::table('courses')
-                      ->selectRaw('courses.id, courses.name, courses.description, courses.category,
+        $course = Course::selectRaw('courses.id, courses.name, courses.description, courses.category,
                                 courses.skill_level, courses.price, courses.photo, view_course_star.star, 
                                 view_course_star.votes, users.name as user_name')
-                      ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
-                      ->leftJoin('users', 'courses.user_id', '=', 'users.id')
-                      ->where('courses.id', $id)
-                      ->first();
+                        ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
+                        ->leftJoin('users', 'courses.user_id', '=', 'users.id')
+                        ->where('courses.id', $id)
+                        ->first();
 
         return response()->json([
             'course' => $course

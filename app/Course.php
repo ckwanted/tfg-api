@@ -35,6 +35,19 @@ class Course extends Model {
     ];
 
     /*
+     * ACCESSORS AND MUTATORS
+     */
+    /**
+     * Get photo
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getPhotoAttribute($value) {
+        return app()->call('\App\Http\Controllers\Controller@getAmazonUrlToken', [$value]);
+    }
+
+    /*
      * RELATIONSHIPS
      */
     public function user() {

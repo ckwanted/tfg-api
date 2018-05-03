@@ -50,7 +50,7 @@ class Controller extends BaseController {
         return false;
     }
 
-    protected function getAmazonUrlToken($uri) {
+    public function getAmazonUrlToken($uri) {
         $s3 = Storage::disk('s3');
         $client = $s3->getDriver()->getAdapter()->getClient();
         $expiry = "+10 minutes";
