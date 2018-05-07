@@ -19,11 +19,11 @@ class CourseSection extends Model {
      * RELATIONSHIPS
      */
     public function course() {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
     public function resources() {
-        return $this->hasMany(CourseSection::class);
+        return $this->hasMany(CourseResource::class, 'section_id');
     }
 
 }

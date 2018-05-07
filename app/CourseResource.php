@@ -19,7 +19,7 @@ class CourseResource extends Model {
      * RELATIONSHIPS
      */
     public function section() {
-        return $this->belongsTo(CourseSection::class);
+        return $this->belongsTo(CourseSection::class, 'section_id');
     }
 
 }
