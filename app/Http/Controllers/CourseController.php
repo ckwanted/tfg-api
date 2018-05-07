@@ -44,13 +44,16 @@ class CourseController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param $id
+     * @param $slugOrId
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($slugOrId) {
+
+        $search = is_numeric($slugOrId) ? 'courses.id' : 'courses.slug';
+
         $course = Course::with(['user', 'sections', 'sections.resources'])
                         ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
-                        ->where('courses.id', $id)
+                        ->where($search, $slugOrId)
                         ->get();
 
         return response()->json([
