@@ -23,9 +23,12 @@ class CoursesTableSeeder extends Seeder {
 
             if($user->getRol() == 'teacher') {
 
+                $name = $faker->name;
+
                 $course = Course::create([
                     'user_id'       => $user->id,
-                    'name'          => $faker->name,
+                    'name'          => $name,
+                    'slug'          => str_slug($name, '-'),
                     'description'   => $faker->text,
                     'price'         => rand(0, 1000),
                     'photo'         => 'lorem.jpg'

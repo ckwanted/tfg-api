@@ -16,6 +16,7 @@ class CreateCoursesTable extends Migration {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->string('description')->nullable();
             $table->enum('category', config('constant.categories'))->default('other');
             $table->enum('skill_level', config('constant.skill_level'))->default('beginner');
