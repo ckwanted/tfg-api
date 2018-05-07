@@ -54,7 +54,7 @@ class CourseController extends Controller {
         $course = Course::with(['user', 'sections', 'sections.resources'])
                         ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
                         ->where($search, $slugOrId)
-                        ->get();
+                        ->first();
 
         return response()->json([
             'course' => $course
