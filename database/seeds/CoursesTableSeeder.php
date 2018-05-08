@@ -53,11 +53,33 @@ class CoursesTableSeeder extends Seeder {
                             'section_id' => $section->id,
                             'title'      => $faker->title . " $i",
                             'quiz'       => json_encode([
-                                'result'    => [0],
-                                'question'  => [
-                                    $faker->title . " 1",
-                                    $faker->title . " 2",
-                                ]
+                                [
+                                    'result'    => 0,
+                                    'question'  => $faker->title . " 1",
+                                    'answers'   => [
+                                        'response 1',
+                                        'response 2',
+                                        'response 3',
+                                    ]
+                                ],
+                                [
+                                    'result'    => 1,
+                                    'question'  => $faker->title . " 2",
+                                    'answers'   => [
+                                        'response 1',
+                                        'response 2',
+                                        'response 3',
+                                    ]
+                                ],
+                                [
+                                    'result'    => 3,
+                                    'question'  => $faker->title . " 3",
+                                    'answers'   => [
+                                        'response 1',
+                                        'response 2',
+                                        'response 3',
+                                    ]
+                                ],
                             ]),
                         ]);
 

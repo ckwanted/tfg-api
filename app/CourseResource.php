@@ -16,6 +16,19 @@ class CourseResource extends Model {
     ];
 
     /*
+     * ACCESSORS AND MUTATORS
+     */
+    /**
+     * Get Quiz
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getQuizAttribute($value) {
+        return json_decode($value);
+    }
+
+    /*
      * RELATIONSHIPS
      */
     public function section() {
