@@ -46,7 +46,7 @@ class CoursesTableSeeder extends Seeder {
                         CourseResource::create([
                             'section_id' => $section->id,
                             'title'      => $faker->title . " $i",
-                            'uri'        => $faker->url
+                            'uri'        => 'trailer_hd.mp4'
                         ]);
 
                         CourseResource::create([
