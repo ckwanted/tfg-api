@@ -24,6 +24,16 @@ class CourseResource extends Model {
      * @param  string  $value
      * @return string
      */
+    public function getUriAttribute($value) {
+        return app()->call('\App\Http\Controllers\Controller@getAmazonUrlToken', [$value]);
+    }
+
+    /**
+     * Get Quiz
+     *
+     * @param  string  $value
+     * @return string
+     */
     public function getQuizAttribute($value) {
         return json_decode($value);
     }
