@@ -62,4 +62,8 @@ class Course extends Model {
         return $this->hasMany(CourseStar::class);
     }
 
+    public function payments() {
+        return $this->belongsToMany(User::class);
+    }
+
 }

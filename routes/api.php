@@ -42,6 +42,9 @@ Route::group(['prefix' => 'v1'], function() {
         Route::put('courses/{course}', 'CourseController@update')->middleware('role:admin|teacher');
         Route::delete('courses/{course}', 'CourseController@destroy')->middleware('role:admin|teacher');
 
+        // Cart
+        Route::post('cart', 'CartController@pay');
+
     });
 
     // SEARCH

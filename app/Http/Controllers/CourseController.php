@@ -6,7 +6,6 @@ use App\Course;
 use App\Http\Requests\Course\CourseStoreRequest;
 use App\Http\Requests\Course\CourseUpdateRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Exception;
 
 class CourseController extends Controller {
