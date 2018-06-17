@@ -25,6 +25,10 @@ Route::group(['prefix' => 'v1'], function() {
 
     });
 
+    // PASSWORD RESET
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
     // COURSES
     Route::get('courses/{course}', 'CourseController@show');
     Route::get('courses', 'CourseController@index');

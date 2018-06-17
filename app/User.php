@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -66,6 +67,16 @@ class User extends Authenticatable implements JWTSubject {
      */
     public function getRol() {
         return $this->getRoleNames()->first();
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new ResetPasswordNotification($token, $this));
     }
 
     /*

@@ -31,7 +31,7 @@ class RegisterMail extends Mailable
      */
     public function build()
     {
-        return $this->view('pdf.register')
+        return $this->view('email.register')
                     ->subject('Bienvenido a ' . env('APP_NAME') );
     }
 }

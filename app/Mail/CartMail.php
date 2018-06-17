@@ -32,7 +32,7 @@ class CartMail extends Mailable {
      * @return $this
      */
     public function build() {
-        return $this->view('pdf.cart')
+        return $this->view('email.cart')
                     ->subject("ULPGC COURSE");
     }
 
