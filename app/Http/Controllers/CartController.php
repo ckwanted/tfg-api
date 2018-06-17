@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Cart\CartRequest;
+use App\Mail\CartMail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller {
 
@@ -18,6 +20,8 @@ class CartController extends Controller {
         DB::beginTransaction();
 
         auth()->user()->payments()->sync($request->courses);
+
+        Mail::to(auth()->user()->email)->send(new CartMail($request->courses));
 
         DB::commit();
 

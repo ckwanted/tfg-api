@@ -30,6 +30,15 @@
         .shadow {
             box-shadow: 0 0 5px rgba(0, 0, 0, .1);
         }
+        .f-s-12px {
+            font-size: 12px;
+        }
+        .f-s-16px {
+            font-size: 16px;
+        }
+        .color-gray {
+            color: #777;
+        }
     </style>
     @yield('head', '')
 </head>
