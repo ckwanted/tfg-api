@@ -31,7 +31,6 @@
                 <hr>
 
                 <div>
-                    <p class="m-0"><strong>ID de factura: </strong>1</p>
                     <p class="m-0"><strong>Comprador: </strong>{{ (auth()->user()) ? auth()->user()->name : ''}}</p>
                 </div>
 
