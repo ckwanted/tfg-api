@@ -19,7 +19,7 @@
                 <p class="mt-3">Este enlace será valido durante <strong>{{config('auth.passwords.users.expire') / 60}} horas.</strong></p>
 
                 <p>
-                    <a href="{{ env('FRONT_END_END_POINT') . '/password/reset/' . $token . '?email=' . $user->email }}" class="btn" target="_blank">Establecer Contraseña</a>
+                    <a  href="{{ env('FRONT_END_END_POINT') . '/password/reset/' . $token . '?email=' . $user->email }}" class="btn btn-secondary" target="_blank">Establecer Contraseña</a>
                 </p>
 
             </main>
