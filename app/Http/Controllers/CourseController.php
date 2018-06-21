@@ -7,6 +7,7 @@ use App\Http\Requests\Course\CourseStoreRequest;
 use App\Http\Requests\Course\CourseUpdateRequest;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller {
     /**
@@ -100,4 +101,38 @@ class CourseController extends Controller {
         }
 
     }
+
+    /**
+     * Change photo
+     *
+     * @param Request $request
+     * @param Course $course
+     * @return \Illuminate\Http\Response
+     */
+    public function photo(Request $request, Course $course) {
+
+        if($this->is_my_course($course)) {
+
+            if($request->file('photo')) {
+
+                $uri = $request->file('photo')->store("courses/{$course->id}", 's3');
+                Storage::disk('s3')->delete($course->photo);
+
+                $course->update([
+                    'photo' => $uri
+                ]);
+
+                return response()->json([
+                    'course' => $course
+                ]);
+
+            }
+
+        }
+
+        return response()->json([
+            'message' => 'you don\'t have permission'
+        ], 401);
+    }
+
 }
