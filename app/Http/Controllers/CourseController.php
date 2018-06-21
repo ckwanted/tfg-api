@@ -80,9 +80,7 @@ class CourseController extends Controller {
             ]);
         }
 
-        return response()->json([
-            'message' => 'you don\'t have permission'
-        ], 401);
+        return $this->responseNotPermission();
     }
 
     /**
@@ -130,9 +128,7 @@ class CourseController extends Controller {
 
         }
 
-        return response()->json([
-            'message' => 'you don\'t have permission'
-        ], 401);
+        return $this->responseNotPermission();
     }
 
 }

@@ -66,4 +66,10 @@ class Controller extends BaseController {
         return (string) $request->getUri();
     }
 
+    public function responseNotPermission() {
+        return response()->json([
+            'message' => 'you don\'t have permission'
+        ], 401);
+    }
+
 }

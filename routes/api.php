@@ -41,6 +41,11 @@ Route::group(['prefix' => 'v1'], function() {
         Route::put('users/{user}', 'UserController@update');
         Route::delete('users/{user}', 'UserController@destroy');
 
+        // COURSE SECTION
+        Route::post('courses/section', 'CourseSectionController@store')->middleware('role:admin|teacher');
+        Route::put('courses/section/{courseSection}', 'CourseSectionController@update')->middleware('role:admin|teacher');
+        Route::delete('courses/section/{courseSection}', 'CourseSectionController@destroy')->middleware('role:admin|teacher');
+
         // COURSES
         Route::post('courses', 'CourseController@store')->middleware('role:admin|teacher');
         Route::put('courses/photo/{course}')->middleware('role:admin|teacher');
