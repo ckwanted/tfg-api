@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\CourseStar;
 use App\Http\Requests\Course\CourseStoreRequest;
 use App\Http\Requests\Course\CourseUpdateRequest;
+use App\Http\Requests\Course\CourseVoteRequest;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Storage;
@@ -17,6 +19,7 @@ class CourseController extends Controller {
      */
     public function index() {
         return response()->json([
+            'userPayments'  => $this->userPayments(),
             'courses'   => Course::with('user')
                                 ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
                                 ->orderBy('id', 'desc')
@@ -51,12 +54,13 @@ class CourseController extends Controller {
 
         $search = is_numeric($slugOrId) ? 'courses.id' : 'courses.slug';
 
-        $course = Course::with(['user', 'sections', 'sections.resources'])
+        $course = Course::with(['user', 'sections', 'sections.resources', 'myVote'])
                         ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
                         ->where($search, $slugOrId)
                         ->first();
 
         return response()->json([
+            'userPayments'  => $this->userPayments(),
             'course' => $course
         ]);
     }
@@ -129,6 +133,34 @@ class CourseController extends Controller {
         }
 
         return $this->responseNotPermission();
+    }
+
+    /**
+     * Vote course
+     *
+     * @param CourseVoteRequest $request
+     * @param Course $course
+     * @return \Illuminate\Http\Response
+     */
+    public function vote(CourseVoteRequest $request, Course $course) {
+        $courseStar = CourseStar::where('user_id', auth()->user()->id)
+                                ->where('course_id', $course->id)
+                                ->first();
+
+        if($courseStar) {
+            CourseStar::where('user_id', auth()->user()->id)
+                      ->where('course_id', $course->id)
+                      ->update(['value' => $request->vote]);
+        }
+        else {
+            CourseStar::create([
+                'user_id'   => auth()->user()->id,
+                'course_id' => $course->id,
+                'value'     => $request->vote,
+            ]);
+        }
+
+        return response()->json(['message' => 'Voted correctly']);
     }
 
 }

@@ -51,6 +51,8 @@ Route::group(['prefix' => 'v1'], function() {
         Route::put('courses/section/{courseSection}', 'CourseSectionController@update')->middleware('role:admin|teacher');
         Route::delete('courses/section/{courseSection}', 'CourseSectionController@destroy')->middleware('role:admin|teacher');
 
+        Route::put('courses/{course}/vote', 'CourseController@vote');
+
         // COURSES
         Route::post('courses', 'CourseController@store')->middleware('role:admin|teacher');
         Route::put('courses/photo/{course}')->middleware('role:admin|teacher');

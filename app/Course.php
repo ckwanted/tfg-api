@@ -58,7 +58,7 @@ class Course extends Model {
         return $this->hasMany(CourseSection::class);
     }
 
-    public function stars() {
+    public function myVote() {
         return $this->hasMany(CourseStar::class);
     }
 

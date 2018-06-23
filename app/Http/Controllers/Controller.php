@@ -72,4 +72,15 @@ class Controller extends BaseController {
         ], 401);
     }
 
+    /**
+     * Get user payments
+     *
+     * @return array
+     */
+    protected function userPayments() {
+        $user = auth()->user();
+
+        return $user ? array_pluck($user->payments, 'id') : [];
+    }
+
 }
