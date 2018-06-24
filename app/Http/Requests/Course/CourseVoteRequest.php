@@ -21,7 +21,7 @@ class CourseVoteRequest extends FormRequest {
      */
     public function rules() {
         return [
-            'vote'          => 'required|integer|between:1,5',
+            'vote'          => 'required',
         ];
     }
 }
