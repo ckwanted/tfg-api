@@ -12,18 +12,35 @@ use Exception;
 use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+
+        $courses = Course::with('user')
+                        ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id');
+
+        if($request->query('q')) {
+            $q = '%'. trim( strtolower( $request->query('q') ) ) . '%';
+            $courses->whereRaw('LOWER(courses.name) LIKE ?', [$q]);
+        }
+
+        if($request->query('category')) {
+            $courses->where('courses.category', $request->query('category'));
+        }
+
+        if($request->query('skill_level')) {
+            $courses->Where('courses.skill_level', $request->query('skill_level'));
+        }
+
         return response()->json([
             'userPayments'  => $this->userPayments(),
-            'courses'   => Course::with('user')
-                                ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
-                                ->orderBy('id', 'desc')
-                                ->paginate(30)
+            'courses'       => $courses->orderBy('id', 'desc')
+                                       ->paginate(30)
 
         ]);
     }

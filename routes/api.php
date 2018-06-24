@@ -64,9 +64,4 @@ Route::group(['prefix' => 'v1'], function() {
 
     });
 
-    // SEARCH
-    Route::group(['prefix' => 'search'], function () {
-        Route::post('course', 'SearchController@course');
-    });
-
 });
