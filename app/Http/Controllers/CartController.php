@@ -26,7 +26,7 @@ class CartController extends Controller {
         DB::commit();
 
         return response()->json([
-            'message' => 'completed correctly'
+            'userPayments'  => $this->userPayments(),
         ]);
 
     }
