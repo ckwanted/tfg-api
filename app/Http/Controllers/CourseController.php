@@ -29,12 +29,24 @@ class CourseController extends Controller {
             $courses->whereRaw('LOWER(courses.name) LIKE ?', [$q]);
         }
 
-        if($request->query('category')) {
-            $courses->where('courses.category', $request->query('category'));
+        if($request->query('categories')) {
+            $categories = explode(',', $request->query('categories'));
+
+            $courses->where(function($query) use ($request, $categories) {
+                foreach($categories as $category) {
+                    $query->orWhere('courses.category', $category);
+                }
+            });
         }
 
         if($request->query('skill_level')) {
-            $courses->Where('courses.skill_level', $request->query('skill_level'));
+            $skill_level = explode(',', $request->query('skill_level'));
+
+            $courses->where(function($query) use ($request, $skill_level) {
+                foreach($skill_level as $skill) {
+                    $query->orWhere('courses.skill_level', $skill);
+                }
+            });
         }
 
         return response()->json([
