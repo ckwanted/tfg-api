@@ -17,7 +17,7 @@ class CourseSectionController extends Controller {
      */
     public function store(CourseSectionStoreRequest $request) {
 
-        $course = Course::findOrFaild($request->course_id);
+        $course = Course::findOrFail($request->course_id);
 
         if($this->is_my_course($course)) {
 
@@ -42,7 +42,7 @@ class CourseSectionController extends Controller {
      */
     public function update(Request $request, CourseSection $courseSection) {
 
-        $course = Course::findOrFaild($courseSection->course_id);
+        $course = Course::findOrFail($courseSection->course_id);
 
         if($this->is_my_course($course)) {
 
@@ -66,7 +66,7 @@ class CourseSectionController extends Controller {
      */
     public function destroy(CourseSection $courseSection) {
 
-        $course = Course::findOrFaild($courseSection->course_id);
+        $course = Course::findOrFail($courseSection->course_id);
 
         if($this->is_my_course($course)) {
 
