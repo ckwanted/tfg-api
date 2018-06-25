@@ -89,18 +89,9 @@ class CourseController extends Controller {
                         ->where($search, $slugOrId)
                         ->first();
 
-        $my_vote = null;
-        if($course) {
-            $courseStart = DB::table('course_stars')->where('course_id', $course->id)
-                                     ->where('user_id', auth()->user()->id)
-                                     ->first();
-
-            if($courseStart) $my_vote = $courseStart->value;
-        }
-
         return response()->json([
             'userPayments'  => $this->userPayments(),
-            'my_vote'       => $my_vote,
+            'my_vote'       => $this->getMyVote($course),
             'course'        => $course
         ]);
     }
@@ -200,7 +191,24 @@ class CourseController extends Controller {
             ]);
         }
 
-        return response()->json(['message' => 'Voted correctly']);
+        return response()->json([
+            'message'       => 'Voted correctly',
+            'my_vote'       => $this->getMyVote($course),
+        ]);
+    }
+
+    private function getMyVote($course) {
+        $my_vote = null;
+
+        if($course) {
+            $courseStart = DB::table('course_stars')->where('course_id', $course->id)
+                ->where('user_id', auth()->user()->id)
+                ->first();
+
+            if($courseStart) $my_vote = $courseStart->value;
+        }
+
+        return $my_vote;
     }
 
 }
