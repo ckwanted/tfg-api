@@ -9,6 +9,7 @@ use App\Http\Requests\Course\CourseUpdateRequest;
 use App\Http\Requests\Course\CourseVoteRequest;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller {
@@ -88,9 +89,19 @@ class CourseController extends Controller {
                         ->where($search, $slugOrId)
                         ->first();
 
+        $my_vote = null;
+        if($course) {
+            $courseStart = DB::table('course_stars')->where('course_id', $course->id)
+                                     ->where('user_id', auth()->user()->id)
+                                     ->first();
+
+            if($courseStart) $my_vote = $courseStart->value;
+        }
+
         return response()->json([
             'userPayments'  => $this->userPayments(),
-            'course' => $course
+            'my_vote'       => $my_vote,
+            'course'        => $course
         ]);
     }
 
