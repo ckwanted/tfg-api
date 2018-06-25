@@ -22,6 +22,7 @@ class CourseSectionController extends Controller {
         if($this->is_my_course($course)) {
 
             $courseSection = CourseSection::create($request->all());
+            $courseSection->resources;
 
             return response()->json([
                 'course_section'    => $courseSection
@@ -47,6 +48,7 @@ class CourseSectionController extends Controller {
         if($this->is_my_course($course)) {
 
             $courseSection->update($request->only('title'));
+            $courseSection->resources;
 
             return response()->json([
                 'course_section'    => $courseSection
