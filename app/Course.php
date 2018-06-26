@@ -55,7 +55,7 @@ class Course extends Model {
     }
 
     public function sections() {
-        return $this->hasMany(CourseSection::class);
+        return $this->hasMany(CourseSection::class)->orderBy('id', 'ASC');
     }
 
     public function myVote() {

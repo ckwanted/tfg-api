@@ -23,7 +23,7 @@ class CourseSection extends Model {
     }
 
     public function resources() {
-        return $this->hasMany(CourseResource::class, 'section_id');
+        return $this->hasMany(CourseResource::class, 'section_id')->orderBy('id', 'ASC');
     }
 
 }
