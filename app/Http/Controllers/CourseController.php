@@ -159,8 +159,6 @@ class CourseController extends Controller {
                     'photo' => $uri
                 ]);
 
-                $course->sections->resources;
-
                 return response()->json([
                     'userPayments'  => $this->userPayments(),
                     'my_vote'       => $this->getMyVote($course),
