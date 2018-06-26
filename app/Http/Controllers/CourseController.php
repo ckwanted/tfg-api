@@ -70,6 +70,8 @@ class CourseController extends Controller {
         $course = Course::create($request->all());
 
         return response()->json([
+            'userPayments'  => $this->userPayments(),
+            'my_vote'       => $this->getMyVote($course),
             'course' => $course
         ], 201);
     }
@@ -111,7 +113,9 @@ class CourseController extends Controller {
             $course->save();
 
             return response()->json([
-                'course' => $course
+                'userPayments'  => $this->userPayments(),
+                'my_vote'       => $this->getMyVote($course),
+                'course'        => $course
             ]);
         }
 
@@ -155,8 +159,12 @@ class CourseController extends Controller {
                     'photo' => $uri
                 ]);
 
+                $course->sections->resources;
+
                 return response()->json([
-                    'course' => $course
+                    'userPayments'  => $this->userPayments(),
+                    'my_vote'       => $this->getMyVote($course),
+                    'course'        => $course
                 ]);
 
             }
