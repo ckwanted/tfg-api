@@ -19,7 +19,7 @@ class CartController extends Controller {
 
         DB::beginTransaction();
 
-        auth()->user()->payments()->sync($request->courses);
+        foreach($request->courses as $course_id) auth()->user()->payments()->attach($course_id);
 
         Mail::to(auth()->user()->email)->send(new CartMail($request->courses));
 
