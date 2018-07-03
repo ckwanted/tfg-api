@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
@@ -52,34 +53,38 @@ class ResetPasswordController extends Controller
         //$this->guard()->login($user);
     }
 
-    protected function sendResetLinkResponse($response) {
-        if(request()->header('Content-Type') == 'application/json') {
-            return response()->json(['success' => 'Recovery email sent.']);
-        }
-        return back()->with('status', trans($response));
-    }
-
-    protected function sendResetLinkFailedResponse(Request $request, $response) {
-        if(request()->header('Content-Type') == 'application/json') {
-            return response()->json(['error' => 'Oops something went wrong.']);
-        }
-
-        return back()->withErrors(
-            ['email' => trans($response)]
-        );
-    }
-
     /**
-     * Get the password reset validation rules.
+     * Reset the given user's password.
      *
-     * @return array
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function rules() {
-        return [
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:4',
-        ];
+    public function reset(Request $request) {
+        $this->validate($request, $this->rules(), $this->validationErrorMessages());
+
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+        $response = $this->broker()->reset(
+            $this->credentials($request), function ($user, $password) {
+            $this->resetPassword($user, $password);
+        }
+        );
+
+        if ($request->wantsJson()) {
+            if ($response == Password::PASSWORD_RESET) {
+                return response()->json(['data' => trans('passwords.reset')]);
+            } else {
+                return response()->json(['data' => trans($response)], 400);
+            }
+        }
+
+        // If the password was successfully reset, we will redirect the user back to
+        // the application's home authenticated view. If there is an error we can
+        // redirect them back to where they came from with their error message.
+        return $response == Password::PASSWORD_RESET
+            ? $this->sendResetResponse($response)
+            : $this->sendResetFailedResponse($request, $response);
     }
 
 }
