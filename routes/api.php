@@ -32,6 +32,9 @@ Route::group(['prefix' => 'v1'], function() {
     // COURSES
     Route::get('courses', 'CourseController@index');
 
+    // TEACHERS
+    Route::get('teachers', 'UserController@teachers');
+
     Route::group(['middleware' => 'auth:api'], function () {
 
         // USERS

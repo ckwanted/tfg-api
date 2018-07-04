@@ -7,6 +7,7 @@ use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller {
 
@@ -78,6 +79,26 @@ class UserController extends Controller {
         }
 
 
+    }
+
+    /**
+     * Display a listing of the teachers.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function teachers() {
+
+        $teacherRol = Role::findByName('teacher');
+
+        if(!$teacherRol) return response()->json(['teachers' => []]);
+
+        $teachers = $teacherRol->users;
+
+        foreach($teachers as $teacher) $teacher->courses;
+
+        return response()->json([
+            'teachers' => $teacherRol->users
+        ]);
     }
 
 }
