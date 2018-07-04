@@ -203,6 +203,27 @@ class CourseController extends Controller {
         ]);
     }
 
+    /**
+     * My Course
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function myCourse() {
+
+        $courses = Course::where('id', auth()->user()->id)->distinct();
+
+        return response()->json([
+            'courses'       => $courses->get(),
+            'userPayments'  => auth()->user()->payments
+        ]);
+    }
+
+    /**
+     * Get my vote
+     *
+     * @param Course $course
+     * @return \Illuminate\Http\Response
+     */
     private function getMyVote($course) {
         $my_vote = null;
 

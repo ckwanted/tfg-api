@@ -55,6 +55,7 @@ Route::group(['prefix' => 'v1'], function() {
 
         Route::post('courses/photo/{course}', 'CourseController@photo')->middleware('role:admin|teacher');
         Route::put('courses/{course}/vote', 'CourseController@vote');
+        Route::get('courses/myCourse', 'CourseController@myCourse');
 
         // COURSES
         Route::get('courses/{course}', 'CourseController@show');
