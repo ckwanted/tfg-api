@@ -36,6 +36,7 @@ class AuthController extends Controller {
     public function register(RegisterUserRequest $request) {
 
         $user = User::create($request->all());
+        $user->assignRole('student');
 
         Mail::to($user->email)->send(new RegisterMail($user));
 
