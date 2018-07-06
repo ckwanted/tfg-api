@@ -39,6 +39,7 @@ Route::group(['prefix' => 'v1'], function() {
 
         // USERS
         Route::get('users', 'UserController@index')->middleware('role:admin');
+        Route::get('users/payment', 'UserController@payment');
         Route::get('users/{user}', 'UserController@show')->middleware('role:admin');
         Route::put('users/{user}', 'UserController@update');
         Route::delete('users/{user}', 'UserController@destroy');

@@ -101,4 +101,10 @@ class UserController extends Controller {
         ]);
     }
 
+    public function payment() {
+        return response()->json([
+            'userPayments'  => auth()->user()->payments
+        ]);
+    }
+
 }
