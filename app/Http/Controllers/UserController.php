@@ -14,11 +14,24 @@ class UserController extends Controller {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
 
-        $users = User::paginate(10);
+        $users = null;
+
+        if($request->query('q')) {
+            $q = '%'. trim( strtolower( $request->query('q') ) ) . '%';
+
+            $users = User::whereRaw('LOWER(name) LIKE ?', [$q])
+                         ->orWhereRaw('LOWER(last_name) LIKE ?', [$q])
+                         ->orWhereRaw('LOWER(email) LIKE ?', [$q])
+                         ->paginate(10);
+        }
+        else {
+            $users = User::paginate(10);
+        }
 
         foreach($users as $user) {
             $user['rol'] = $user->getRol();
