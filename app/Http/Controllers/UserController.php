@@ -17,8 +17,15 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+
+        $users = User::paginate(10);
+
+        foreach($users as $user) {
+            $user['rol'] = $user->getRol();
+        }
+
         return response()->json([
-            'users' => DB::table('users')->paginate(30)
+            'users' => $users
         ]);
     }
 
@@ -45,8 +52,12 @@ class UserController extends Controller {
 
         if($this->is_me($user)) {
 
-            $user->fill($request->only('name', 'last_name', 'email', 'photo'));
+            DB::beginTransaction();
+
+            $user->fill($request->only('name', 'last_name', 'email'));
             $user->save();
+
+            DB::commit();
 
             return response()->json([
                 'user'  => $user
