@@ -25,8 +25,8 @@ class UserUpdateRequest extends FormRequest {
         return [
             'name'          => 'required|string',
             'last_name'     => 'string',
-            'email'         => 'required|email|unique:users,email,' . auth()->user()->id,
-            'photo'         => 'string',
+            //'email'         => 'required|email|unique:users,email,' . auth()->user()->id,
+            //'photo'         => 'string',
         ];
 
     }
