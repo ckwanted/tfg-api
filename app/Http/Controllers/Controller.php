@@ -22,7 +22,8 @@ class Controller extends BaseController {
     protected function is_me(User $user) {
         $me = auth()->user();
 
-        if( ($me->getRol() == "admin") || ($me->id == $user->id)) return true;
+        if($me->getRol() == "admin") return true;
+        if($me->id == $user->id) return true;
 
         return false;
     }

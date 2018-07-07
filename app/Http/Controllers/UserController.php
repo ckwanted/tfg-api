@@ -68,9 +68,18 @@ class UserController extends Controller {
             DB::beginTransaction();
 
             $user->fill($request->only('name', 'last_name', 'email'));
+
+            if($request->rol) {
+                $user->removeRole($user->getRol());
+                $user->assignRole($request->rol);
+            }
+
             $user->save();
 
             DB::commit();
+
+            if($request->rol) $user['rol'] = $request->rol;
+            else $user['rol'] = $user->getRol();
 
             return response()->json([
                 'user'  => $user
