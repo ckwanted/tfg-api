@@ -7,6 +7,7 @@ use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller {
@@ -62,6 +63,20 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(UserUpdateRequest $request, User $user) {
+
+        $me = auth()->user();
+        $idValidate = null;
+
+        if($me->getRol() == "admin") $idValidate = $user->id;
+        else $idValidate = $me->id;
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users,email,' . $idValidate,
+        ]);
+
+        if($validator->fails()) {
+            return response()->json(['error' => trans('validation.unique', ['attribute' => 'email'])], 400);
+        }
 
         if($this->is_me($user)) {
 
