@@ -29,6 +29,16 @@ class CourseResource extends Model {
     }
 
     /**
+     * Set Quiz
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function setQuizAttribute($value) {
+        return json_encode($value);
+    }
+
+    /**
      * Get Quiz
      *
      * @param  string  $value

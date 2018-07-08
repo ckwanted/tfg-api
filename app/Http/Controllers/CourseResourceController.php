@@ -6,6 +6,7 @@ use App\CourseResource;
 use App\CourseSection;
 use App\Http\Requests\CourseResource\CourseResourceStoreRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CourseResourceController extends Controller {
 
@@ -21,7 +22,23 @@ class CourseResourceController extends Controller {
 
         if($this->is_my_course($courseSection->course) && $this->isValidData($request)) {
 
-            $courseResource = CourseResource::create($request->all());
+            $courseResource = null;
+
+            if($request->uri) {
+                $uri = $request->file('uri')->store("section/resource/{$request->section_id}", 's3');
+                $courseResource = CourseResource::create([
+                    "section_id" => $request->section_id,
+                    "title"      => $request->title,
+                    "uri"        => $uri
+                ]);
+            }
+            else {
+                $courseResource = CourseResource::create([
+                    "section_id" => $request->section_id,
+                    "title"      => $request->title,
+                    "quiz"       => $request->quiz
+                ]);
+            }
 
             return response()->json([
                 'course_resource'   => $courseResource
@@ -44,8 +61,25 @@ class CourseResourceController extends Controller {
 
         if($this->is_my_course($courseResource->course) && $this->isValidData($request)) {
 
-            $courseResource->fill($request->all());
-            ($request->uri) ? $courseResource->quiz = null : $courseResource->uri = null;
+            if($request->uri) {
+                $uri = $request->file('uri')->store("section/resource/{$request->section_id}", 's3');
+
+                $courseResource->fill([
+                    "section_id" => $request->section_id,
+                    "title"      => $request->title,
+                    "uri"        => $uri,
+                    "quiz"       => null
+                ]);
+            }
+            else {
+                $courseResource->fill([
+                    "section_id" => $request->section_id,
+                    "title"      => $request->title,
+                    "uri"        => null,
+                    "quiz"       => $request->quiz
+                ]);
+            }
+
             $courseResource->save();
 
             return response()->json([
