@@ -88,7 +88,7 @@ class CourseResourceController extends Controller {
      */
     public function destroy(CourseResource $courseResource) {
 
-        if($this->is_my_course($courseResource->course)) {
+        if($this->is_my_course($courseResource->section->course)) {
 
             try {
                 $courseResource->delete();
