@@ -46,8 +46,8 @@ Route::group(['prefix' => 'v1'], function() {
 
         // COURSE RESOURCE
         Route::post('courses/section/resource', 'CourseResourceController@store')->middleware('role:admin|teacher');
-        Route::put('courses/section/resource/{id}', 'CourseResourceController@update')->middleware('role:admin|teacher');
-        Route::delete('courses/section/resource/{id}', 'CourseResourceController@destroy')->middleware('role:admin|teacher');
+        Route::put('courses/section/resource/{courseResource}', 'CourseResourceController@update')->middleware('role:admin|teacher');
+        Route::delete('courses/section/resource/{courseResource}', 'CourseResourceController@destroy')->middleware('role:admin|teacher');
 
         // COURSE SECTION
         Route::post('courses/section', 'CourseSectionController@store')->middleware('role:admin|teacher');

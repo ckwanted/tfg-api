@@ -58,31 +58,25 @@ class CourseResourceController extends Controller {
      */
     public function update(Request $request, CourseResource $courseResource) {
 
-        if($this->is_my_course($courseResource->section->course) && $this->isValidData($request)) {
+        $courseResource->title = $request->title;
 
-            $courseResource->title = $request->title;
+        if($request->uri) {
+            $uri = $request->file('uri')->store("section/resource/{$request->section_id}", 's3');
 
-            if($request->uri) {
-                $uri = $request->file('uri')->store("section/resource/{$request->section_id}", 's3');
-
-                $courseResource->uri = $uri;
-                $courseResource->quiz = null;
-
-            }
-            else {
-                $courseResource->uri = null;
-                $courseResource->quiz = $request->quiz;
-            }
-
-            $courseResource->save();
-
-            return response()->json([
-                'course_resource'   => $courseResource
-            ]);
+            $courseResource->uri = $uri;
+            $courseResource->quiz = null;
 
         }
+        else if($request->quiz) {
+            $courseResource->uri = null;
+            $courseResource->quiz = $request->quiz;
+        }
 
-        return $this->responseNotPermission();
+        $courseResource->save();
+
+        return response()->json([
+            'course_resource'   => $courseResource
+        ]);
 
     }
 
