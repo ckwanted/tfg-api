@@ -58,7 +58,7 @@ class CourseResourceController extends Controller {
      */
     public function update(Request $request, CourseResource $courseResource) {
 
-        if($this->is_my_course($courseResource->course) && $this->isValidData($request)) {
+        if($this->is_my_course($courseResource->section->course) && $this->isValidData($request)) {
 
             $courseResource->title = $request->title;
 
