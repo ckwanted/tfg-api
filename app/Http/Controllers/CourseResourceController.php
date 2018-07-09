@@ -6,7 +6,6 @@ use App\CourseResource;
 use App\CourseSection;
 use App\Http\Requests\CourseResource\CourseResourceStoreRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CourseResourceController extends Controller {
 
@@ -61,23 +60,18 @@ class CourseResourceController extends Controller {
 
         if($this->is_my_course($courseResource->course) && $this->isValidData($request)) {
 
+            $courseResource->title = $request->title;
+
             if($request->uri) {
                 $uri = $request->file('uri')->store("section/resource/{$request->section_id}", 's3');
 
-                $courseResource->fill([
-                    "section_id" => $request->section_id,
-                    "title"      => $request->title,
-                    "uri"        => $uri,
-                    "quiz"       => null
-                ]);
+                $courseResource->uri = $uri;
+                $courseResource->quiz = null;
+
             }
             else {
-                $courseResource->fill([
-                    "section_id" => $request->section_id,
-                    "title"      => $request->title,
-                    "uri"        => null,
-                    "quiz"       => $request->quiz
-                ]);
+                $courseResource->uri = null;
+                $courseResource->quiz = $request->quiz;
             }
 
             $courseResource->save();
