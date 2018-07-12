@@ -35,7 +35,7 @@ class CourseResourceController extends Controller {
                 $courseResource = CourseResource::create([
                     "section_id" => $request->section_id,
                     "title"      => $request->title,
-                    "quiz"       => json_encode($request->quiz)
+                    "quiz"       => json_decode($request->quiz)
                 ]);
             }
 
@@ -69,7 +69,7 @@ class CourseResourceController extends Controller {
         }
         else if($request->quiz) {
             $courseResource->uri = null;
-            $courseResource->quiz = json_encode($request->quiz);
+            $courseResource->quiz = json_decode($request->quiz);
         }
 
         $courseResource->save();
