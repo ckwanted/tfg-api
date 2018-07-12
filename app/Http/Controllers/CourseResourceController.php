@@ -69,7 +69,7 @@ class CourseResourceController extends Controller {
         }
         else if($request->quiz) {
             $courseResource->uri = null;
-            $courseResource->quiz = json_decode($request->quiz);
+            $courseResource->quiz = $request->quiz;
         }
 
         $courseResource->save();
