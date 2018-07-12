@@ -35,7 +35,7 @@ class CourseResourceController extends Controller {
                 $courseResource = CourseResource::create([
                     "section_id" => $request->section_id,
                     "title"      => $request->title,
-                    "quiz"       => json_decode($request->quiz)
+                    "quiz"       => $request->quiz
                 ]);
             }
 
