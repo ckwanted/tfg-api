@@ -47,6 +47,15 @@ class Course extends Model {
         return app()->call('\App\Http\Controllers\Controller@getAmazonUrlToken', [$value]);
     }
 
+    /**
+     * Set slug
+     *
+     * @param  string  $value
+     */
+    public function setSlugAttribute($value) {
+        $this->attributes['slug'] = str_slug($value, '-');
+    }
+
     /*
      * RELATIONSHIPS
      */

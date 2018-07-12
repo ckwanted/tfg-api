@@ -67,7 +67,14 @@ class CourseController extends Controller {
     public function store(CourseStoreRequest $request) {
 
         $request['user_id'] = auth()->user()->id;
-        $course = Course::create($request->all());
+
+        $course = new Course();
+        $course->fill($request->all());
+
+        $uri = $request->file('selectedFile')->store("courses/{$course->id}", 's3');
+        $course->photo = $uri;
+
+        $course->save();
 
         return response()->json([
             'userPayments'  => $this->userPayments(),
