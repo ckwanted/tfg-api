@@ -219,7 +219,7 @@ class CourseController extends Controller {
 
         $courses = Course::with('user')
                          ->leftJoin('view_course_star', 'courses.id', '=', 'view_course_star.course_id')
-                         ->where('id', auth()->user()->id)
+                         ->where('user_id', auth()->user()->id)
                          ->distinct();
 
         return response()->json([
