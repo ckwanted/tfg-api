@@ -70,10 +70,10 @@ class CourseController extends Controller {
 
         $course = new Course();
         $course->fill($request->all());
+        $course->save();
 
         $uri = $request->file('selectedFile')->store("courses/{$course->id}", 's3');
         $course->photo = $uri;
-
         $course->save();
 
         return response()->json([
